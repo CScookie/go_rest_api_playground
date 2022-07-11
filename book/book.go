@@ -20,11 +20,14 @@ var books = []Book{
 }
 
 func GetBooks(c *gin.Context) {
+	log.Println("Getting books")
 	c.JSON(http.StatusOK, books)
 }
 
 func GetBook(c *gin.Context) {
 	id := c.Param("id")
+
+	log.Println("Getting book")
 
 	for _, book := range books {
 		if id == book.ID {
