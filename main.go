@@ -9,21 +9,24 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/go_rest_api_playground/book"
+	"github.com/go_rest_api_playground/database"
 	"github.com/go_rest_api_playground/middleware"
 )
 
 func main() {
+
 	r := gin.Default()
+	database.ConnectDatabase()
 
 	// grouping book api
 	// eg: http://localhost:8080/bookapi/book
 	bookapi := r.Group("/bookapi")
 	{
 		bookapi.Use(middleware.GroupEndPointMWLog())
-		bookapi.GET("/book", middleware.SingleEndPointMWLog(), book.GetBooks)
-		bookapi.GET("/:id", book.GetBook)
+		bookapi.GET("/books", middleware.SingleEndPointMWLog(), book.GetBooks)
+		bookapi.GET("/book", book.GetBook)
 		bookapi.POST("/book", book.AddBook)
-		bookapi.DELETE("/:id", book.DeleteBook)
+		bookapi.DELETE("/book", book.DeleteBook)
 
 	}
 
