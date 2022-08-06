@@ -1,9 +1,7 @@
 package model
 
-import "gorm.io/gorm"
-
 type Book struct {
-	gorm.Model
+	ID     string `gorm: autoIncrement; json:"id"`
 	Title  string `json:"title"`
 	Author string `json:"author"`
 }

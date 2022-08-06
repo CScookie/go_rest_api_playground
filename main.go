@@ -11,6 +11,11 @@ import (
 	"github.com/go_rest_api_playground/book"
 	"github.com/go_rest_api_playground/database"
 	"github.com/go_rest_api_playground/middleware"
+
+	"github.com/swaggo/files"       // swagger embed files
+	"github.com/swaggo/gin-swagger" // gin-swagger middleware
+
+	_ "github.com/go_rest_api_playground/docs"
 )
 
 func main() {
@@ -23,10 +28,10 @@ func main() {
 	bookapi := r.Group("/bookapi")
 	{
 		bookapi.Use(middleware.GroupEndPointMWLog())
-		bookapi.GET("/books", middleware.SingleEndPointMWLog(), book.GetBooks)
-		bookapi.GET("/book", book.GetBook)
-		bookapi.POST("/book", book.AddBook)
-		bookapi.DELETE("/book", book.DeleteBook)
+		bookapi.GET("/getbooks", middleware.SingleEndPointMWLog(), book.GetBooks)
+		bookapi.GET("/getbook", book.GetBook)
+		bookapi.POST("/addbook", book.AddBook)
+		bookapi.DELETE("/deletebook", book.DeleteBook)
 
 	}
 
@@ -43,6 +48,8 @@ func main() {
 			c.String(200, "pong "+fmt.Sprint(time.Now().Unix()))
 		}))
 	}
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.Run(":8080") // listen and serve on "localhost:8080"
 }
